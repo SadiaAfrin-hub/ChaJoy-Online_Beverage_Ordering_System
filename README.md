@@ -1,106 +1,246 @@
 # ChaJoy – Online Beverage Ordering System
 
-A university Web Technologies project built with **PHP + MySQL** using a
-simple, hand-rolled **MVC** structure (no frameworks). Demonstrates PHP
-conditionals, loops, string functions, form validation, PHP sessions,
-AJAX, JSON, and full MySQL CRUD operations.
+## Project Overview
 
-## 1. Setup (XAMPP / WAMP)
+ChaJoy is a web-based online beverage ordering system developed as part of a university Web Technologies project. The platform provides a convenient way for customers to explore beverages, manage shopping carts, place orders, and track deliveries.
 
-1. Copy the whole `ChaJoy` folder into your `htdocs` (XAMPP) or `www` (WAMP) directory.
-2. Start Apache and MySQL from your control panel.
-3. Open **phpMyAdmin** (`http://localhost/phpmyadmin`).
-4. Click **Import**, choose `database/chajoy_db.sql`, and run it.
-   This creates the `chajoy_db` database, all tables, and sample data
-   (3 accounts + 4 categories + 9 beverages).
-5. Check `config/database.php` — the defaults (`root` / empty password)
-   match a standard XAMPP/WAMP install. Change them if yours differs.
-6. Visit `http://localhost/ChaJoy/` in your browser.
+The system incorporates three user roles: Customer, Admin, and Delivery Personnel. Each role has a dedicated interface and specific functionalities to support the overall ordering and delivery process.
 
-> If your folder is not directly at `/ChaJoy/`, update `BASE_URL` in
-> `config/config.php` to match.
+The project follows a simple Model-View-Controller (MVC) architecture using PHP and MySQL, with AJAX and JSON for asynchronous operations.
 
-## 2. Demo Accounts
+## Technologies Used
 
-All sample accounts use the password: **password123**
+- **Frontend:** HTML5, CSS3, JavaScript
+- **Backend:** PHP
+- **Database:** MySQL
+- **Asynchronous Communication:** AJAX and JSON
+- **Architecture:** Model-View-Controller (MVC)
+- **Development Environment:** XAMPP / WAMP
 
-| Role     | Email                  |
-|----------|-------------------------|
-| Admin    | admin@chajoy.com        |
-| Delivery | delivery@chajoy.com     |
-| Customer | customer@chajoy.com     |
+## Key Features
 
-## 3. Project Structure (MVC)
+### Customer Module
+- User registration and login with server-side validation.
+- Browse beverages by category.
+- Search and filter beverages using AJAX.
+- View beverage details and availability.
+- Add beverages to the shopping cart.
+- Update quantities and remove cart items.
+- Place orders with delivery information.
+- Select Cash on Delivery (COD) or Online as the payment method.
+- Track order status.
+- View order history.
+- Update personal profiles and change passwords.
 
-```
+### Admin Module
+- Admin dashboard with order and business statistics.
+- Manage beverages (Add, View, Update, and Delete).
+- Manage beverage categories.
+- View and manage customer information.
+- Manage delivery personnel.
+- View and process customer orders.
+- Update order statuses using AJAX.
+- Assign delivery personnel to orders.
+
+### Delivery Personnel Module
+- Dedicated delivery dashboard.
+- View assigned orders.
+- Access order and customer delivery information.
+- Update delivery status.
+- Mark orders as picked up or delivered using AJAX.
+
+## Project Architecture
+
+ChaJoy follows the Model-View-Controller (MVC) architectural pattern to organize application logic and maintain a structured codebase.
+
+- **Model:** Handles database operations and data management.
+- **View:** Manages the user interface and presentation.
+- **Controller:** Processes user requests and coordinates application logic.
+
+All application requests are routed through a central entry point (`index.php`).
+
+## Project Directory Structure
+
+```text
 ChaJoy/
-├── config/          -> database.php (connection), config.php (app bootstrap)
-├── controllers/      -> business logic, one file per feature area
-├── models/           -> all direct database (mysqli) operations
-├── views/            -> HTML/PHP templates, organized by role
-│   ├── customer/
+│
+├── config/
+│   ├── config.php
+│   └── database.php
+│
+├── controllers/
+│   ├── AdminController.php
+│   ├── AuthController.php
+│   ├── BeverageController.php
+│   ├── CartController.php
+│   ├── CustomerController.php
+│   ├── DeliveryController.php
+│   └── OrderController.php
+│
+├── database/
+│   └── chajoy_db.sql
+│
+├── includes/
+│   └── functions.php
+│
+├── models/
+│   ├── Beverage.php
+│   ├── Cart.php
+│   ├── Category.php
+│   ├── Delivery.php
+│   ├── Order.php
+│   ├── Payment.php
+│   └── User.php
+│
+├── public/
+│   ├── css/
+│   ├── js/
+│   └── images/
+│
+├── views/
 │   ├── admin/
-│   ├── delivery/
 │   ├── auth/
-│   └── layouts/       (shared header/footer for each area)
-├── includes/functions.php -> shared helpers (validation, string utils, auth guards)
-├── public/           -> css/, js/, images/
-├── database/chajoy_db.sql
-└── index.php          -> single front controller / router
+│   ├── customer/
+│   ├── delivery/
+│   └── layouts/
+│
+├── index.php
+└── README.md
 ```
 
-**Model = Database operations** (`models/*.php` — plain mysqli + prepared statements)
-**View = HTML/UI** (`views/*.php`)
-**Controller = business logic** (`controllers/*.php`, called from `index.php`)
+## Installation and Setup
 
-Every request goes through `index.php?page=...`, which is a simple
-`switch` statement dispatching to the right controller function — easy
-to trace and explain during a viva/defense.
+Follow these steps to run the project locally.
 
-## 4. Key Features Implemented
+### Prerequisites
 
-- Customer registration & login with PHP sessions, password hashing, and
-  full server-side validation (required fields, email format, phone format,
-  password length/match, duplicate email check)
-- Beverage listing with **AJAX search + category filtering** (JSON responses,
-  no page reload) — see `ajax_beverage_search` in `BeverageController.php`
-- Shopping cart with **AJAX quantity update/remove** and live totals
-- Checkout with delivery info + COD/Online payment, auto-generated Order ID,
-  and stock deduction
-- Order tracking with a visual stage tracker (Pending → Preparing → Ready for
-  Pickup → Out for Delivery → Delivered), with conditional cancel button
-- Customer dashboard, order history, profile editing, password change
-- Admin dashboard with live stats, beverage/category CRUD (via modal forms),
-  order management with **AJAX status updates**, delivery-person assignment,
-  customer & delivery-personnel lists
-- Delivery personnel dashboard with **AJAX pickup / mark-delivered** actions,
-  restricted to orders assigned to that specific delivery person
-- Role-based access control via `requireRole()` — admins, customers, and
-  delivery personnel each only see their own areas
+- XAMPP or WAMP
+- PHP
+- MySQL
+- Web browser
 
-## 5. Adding Real Images
+### Step 1: Clone the Repository
 
-The UI currently shows a 🥤 emoji as a placeholder for beverage photos so
-the site works immediately with zero setup. To use real photos:
+Open Git Bash and execute:
 
-1. Drop image files into `public/images/` (filenames are listed in
-   `database/chajoy_db.sql`, e.g. `cappuccino.jpg`).
-2. In the view files (e.g. `views/customer/home.php`, `beverages.php`),
-   replace `<div class="beverage-img">🥤</div>` with
-   `<img src="public/images/<?php echo $b['image']; ?>" class="beverage-img">`.
+```bash
+git clone https://github.com/SadiaAfrin-hub/ChaJoy-Online_Beverage_Ordering_System.git
+```
 
-## 6. Notes for Your Report / Viva
+### Step 2: Move the Project Folder
 
-- **Conditionals**: role checks (`requireRole`), stock availability checks,
-  order-status logic, cancel-button visibility (`canCancelOrder()`).
-- **Loops**: `foreach` used throughout views to render beverages, cart items,
-  orders, categories.
-- **Strings**: `generateOrderId()`, `slugify()`, `truncateText()`,
-  `formatMoney()` in `includes/functions.php` use `strlen()`, `substr()`,
-  `strtolower()`, `str_replace()`, `strtoupper()`.
-- **AJAX + JSON**: beverage search/filter, add/update/remove cart item,
-  admin order status update, delivery pickup/delivered — all return
-  `json_encode()`'d responses consumed by vanilla `XMLHttpRequest`.
-- **Security**: `password_hash()`/`password_verify()`, prepared statements
-  everywhere, `htmlspecialchars()` output escaping via the `clean()` helper,
-  session-based auth, role-based route guards.
+Copy the downloaded `ChaJoy` folder into the XAMPP `htdocs` directory.
+
+```text
+C:\xampp\htdocs\ChaJoy
+```
+
+### Step 3: Start Apache and MySQL
+
+1. Open the XAMPP Control Panel.
+2. Start Apache.
+3. Start MySQL.
+
+### Step 4: Create the Database
+
+1. Open phpMyAdmin:
+
+   `http://localhost/phpmyadmin`
+
+2. Create a new database named:
+
+   `ChaJoy`
+
+3. Select the newly created database.
+4. Open the Import tab.
+5. Choose `database/chajoy_db.sql` from the project directory.
+6. Click Import.
+
+The SQL file creates the required tables and inserts sample data, including user accounts, beverage categories, and beverages.
+
+### Step 5: Configure Database Connection
+
+Open:
+
+`config/database.php`
+
+Ensure the database configuration matches your local MySQL settings.
+
+Default project configuration:
+
+```php
+$db_host = "localhost";
+$db_user = "root";
+$db_pass = "";
+$db_name = "ChaJoy";
+$db_port = 3307;
+```
+
+Update these values if your local MySQL configuration is different.
+
+### Step 6: Run the Application
+
+Open your browser and visit:
+
+`http://localhost/ChaJoy/`
+
+The ChaJoy application should now be accessible locally.
+
+## Sample Login Credentials
+
+The database includes sample accounts for testing different user roles.
+
+| Role | Email |
+|---|---|
+| Admin | admin@chajoy.com |
+| Delivery Personnel | delivery@chajoy.com |
+| Customer | customer@chajoy.com |
+| Customer | test@chajoy.com |
+
+**Default password:** `password123`
+
+These are demonstration credentials intended for local testing only.
+
+## Security and Implementation
+
+The project incorporates several fundamental security and development practices:
+
+- Password hashing and verification using PHP's `password_hash()` and `password_verify()`.
+- Server-side form validation.
+- Prepared SQL statements to reduce SQL injection risks.
+- Output sanitization using `htmlspecialchars()`.
+- Session-based authentication.
+- Role-based access control.
+- AJAX requests with JSON responses.
+- Database operations using MySQLi.
+
+## Learning Outcomes
+
+This project demonstrates practical implementation of:
+
+- PHP conditional statements, loops, and string manipulation.
+- Form handling and server-side validation.
+- Session management and authentication.
+- MySQL database connectivity and CRUD operations.
+- MVC-based application organization.
+- AJAX and JSON communication.
+- Role-based application functionality.
+- Dynamic content management.
+
+## Project Information
+
+**Project Name:** ChaJoy – Online Beverage Ordering System
+
+**Project Type:** Academic Web Technologies Project
+
+**Backend:** PHP
+
+**Database:** MySQL
+
+**Architecture:** MVC
+
+**Repository:** [ChaJoy – GitHub](https://github.com/SadiaAfrin-hub/ChaJoy-Online_Beverage_Ordering_System)
+
+---
+
+Developed as an academic project to demonstrate practical web application development using PHP, MySQL, JavaScript, and modern web technologies.
